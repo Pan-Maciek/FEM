@@ -1,7 +1,4 @@
-module Meshbuilder
-
 using Base.Iterators
-export Mesh, Edge, EdgeX, EdgeY
 
 abstract type Edge end
 struct EdgeX <: Edge
@@ -39,12 +36,10 @@ end
 
 wrapN(xs, n) = take(rest(cycle(xs), n + 1), length(xs))
 
-rectGrid(poly) = []
+Grid() = missing
 
-function Mesh(poly) 
+function Mesh(poly) :: Mesh
     edges = Edge.(poly, wrapN(poly, 1))
-    grid = rectGrid(poly)
+    grid = Grid()
     Mesh(grid, edges)
-end
-
 end

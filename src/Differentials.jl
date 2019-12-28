@@ -1,7 +1,3 @@
-module Differentials
-
-export ∂, ∂x, ∂y, ∂z
-
 const ϵ = 0.000000001
 
 incArg(X, n :: Number) = [i == n ? x + ϵ : x for (i, x) in enumerate(X)]
@@ -12,5 +8,3 @@ incArg(X, n :: Number) = [i == n ? x + ϵ : x for (i, x) in enumerate(X)]
 ∂x(f) = ∂(f, 1)
 ∂y(f) = ∂(f, 2)
 ∂z(f) = ∂(f, 3)
-
-end

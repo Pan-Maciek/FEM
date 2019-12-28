@@ -1,8 +1,4 @@
-module Integrals
 include("Meshbuilder.jl")
-
-using Main.Integrals.Meshbuilder
-export ∫ds, ∬dS
 
 function simpson(f, a, b, n=10)
     iseven(n) || throw("n must be even, and $n was given")
@@ -18,11 +14,9 @@ function trapezoid(f, a, b, n=10)
 end
 
 
-∫ds(f :: Function, edge :: EdgeX, int=simpson, n=10) = (y = edge.xLine; int(x -> f(x, y(x)), edge.xRange..., n))
-∫ds(f :: Function, edge :: EdgeY, int=simpson, n=10) = (x = edge.yLine; int(y -> f(x(y), y), edge.yRange..., n))
-∫ds(f :: Function, mesh :: Mesh,  int=simpson, n=10) = sum(∫ds.(f, mesh.edges, int, n))
+∫ds(f, edge :: EdgeX, ∫=simpson, n=10) = (y = edge.xLine; ∫(x -> f(x, y(x)), edge.xRange..., n))
+∫ds(f, edge :: EdgeY, ∫=simpson, n=10) = (x = edge.yLine; ∫(y -> f(x(y), y), edge.yRange..., n))
+∫ds(f, mesh :: Mesh,  ∫=simpson, n=10) = sum(∫ds.(f, mesh.edges, ∫, n))
 
-∬dS(f :: Function, rect :: Rectangle, int=simpson, n=10) = int(x -> int(y -> f(x, y), rect.yRange..., n), rect.xRange..., n)
-∬dS(f :: Function, mesh :: Mesh, int=simpson, n=10) = sum(∬dS.(f, mesh.grid, int, n))
-
-end
+∫∫dS(f, rect :: Rectangle, ∫=simpson, n=10) = ∫(x -> ∫(y -> f(x, y), rect.yRange..., n), rect.xRange..., n)
+∫∫dS(f, mesh :: Mesh, ∫=simpson, n=10) = sum(∫∫dS.(f, mesh.grid, ∫, n))
