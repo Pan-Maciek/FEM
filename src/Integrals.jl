@@ -1,4 +1,5 @@
 include("Meshbuilder.jl")
+include("Utils.jl")
 
 function simpson(f, a, b, n = 10)
     iseven(n) || throw("n must be even, and $n was given")
@@ -13,10 +14,10 @@ function trapezoid(f, a, b, n = 10)
     h // 2 * s
 end
 
+N = 100
+∫ds(f, edge::EdgeX, ∫ = simpson, n = N) :: Number = (y = edge.xLine; ∫(x -> f(x, y(x)), edge.xRange..., n))
+∫ds(f, edge::EdgeY, ∫ = simpson, n = N) :: Number = (x = edge.yLine; ∫(y -> f(x(y), y), edge.yRange..., n))
+∫ds(f, mesh::Mesh, ∫ = simpson, n = N) :: Number = sum(∫ds.(f, mesh.edges, ∫, n))
 
-∫ds(f, edge::EdgeX, ∫ = simpson, n = 10) = (y = edge.xLine; ∫(x -> f(x, y(x)), edge.xRange..., n))
-∫ds(f, edge::EdgeY, ∫ = simpson, n = 10) = (x = edge.yLine; ∫(y -> f(x(y), y), edge.yRange..., n))
-∫ds(f, mesh::Mesh, ∫ = simpson, n = 10) = sum(∫ds.(f, mesh.edges, ∫, n))
-
-∫∫dS(f, rect::Rectangle, ∫ = simpson, n = 10) = ∫(x -> ∫(y -> f(x, y), rect.yRange..., n), rect.xRange..., n)
-∫∫dS(f, mesh::Mesh, ∫ = simpson, n = 10) = sum(∫∫dS.(f, mesh.grid, ∫, n))
+∫∫dS(f, rect::Rectangle, ∫ = simpson, n = N) :: Number = ∫(x -> ∫(y -> f(x, y), rect.yRange..., n), rect.xRange..., n)
+∫∫dS(f, mesh::Mesh, ∫ = simpson, n = N) :: Number = sum(∫∫dS.(f, mesh.grid, ∫, n))
