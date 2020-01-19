@@ -21,11 +21,13 @@ using Cubature, ForwardDiff
 ∫, ∫∫ = hquadrature, hcubature
 
 # Notice valid only for linear functions
-∫dsX(f, a, b, y, slope) = ∫(x -> f(x, y(x)), a, b)[1] * sqrt(1 + slope^2) # helper
-∫dsY(f, a, b, x, slope) = ∫(y -> f(x(y), y), a, b)[1] * sqrt(1 + slope^2) # helper
+∫dlX(f, a, b, y, slope) = ∫(x -> f(x, y(x)), a, b)[1] * sqrt(1 + slope^2) # helper
+∫dlY(f, a, b, x, slope) = ∫(y -> f(x(y), y), a, b)[1] * sqrt(1 + slope^2) # helper
 
-∫ds(f, e::EdgeX) = ∫dsX(f, e.range..., e.y, e.a)
-∫ds(f, e::EdgeY) = ∫dsY(f, e.range..., e.x, e.a)
-∫ds(f, edges) = sum(∫ds.(f, edges))
+∫dl(f, e::EdgeX) = ∫dlX(f, e.range..., e.y, e.a)
+∫dl(f, e::EdgeY) = ∫dlY(f, e.range..., e.x, e.a)
+∫dl(f, edges) = sum(∫dl.(f, edges))
 
 ∫∫dS(f, A, B) = hcubature(v -> f(v...), A, B)[1]
+
+∑(x) = sum(collect(x))
