@@ -1,0 +1,11 @@
+name = "FEM"
+uuid = "1762e4e4-4301-4db7-b350-b86ede201e63"
+authors = ["Maciej Kozieja <kozieja.maciej@gmail.com>"]
+repository = "https://github.com/pan-maciek/fem"
+version = "0.1.2"
+
+[deps]
+Cubature = "667455a9-e2ce-5579-9412-b964f529a492"
+ForwardDiff = "f6369f11-7733-5829-9624-2563aa707210"
+Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
+PolygonOps = "647866c9-e3ac-4575-94e7-e3d426903924"

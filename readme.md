@@ -10,12 +10,11 @@ Used for **multi-dimensional adaptive integration**
 * [Plots](https://github.com/JuliaPlots/Plots.jl)  
 Used for **plotting heat-map**
 
+## Used algorithms:
+* 
+
 ## Running the program for the first time
 You have to install all required dependencies.
 open `julia` and type  
-`] add https://github.com/JuliaGeometry/PolygonOps.jl`  
-`] add ForwardDiff`  
-`] add Cubature`  
-`] add Plots`  
-close julia and run
-`julia src/main.jl`
+`] activate .`  
+`] instantiate`  
