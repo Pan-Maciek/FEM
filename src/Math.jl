@@ -30,4 +30,4 @@ using Cubature, ForwardDiff
 
 ∫∫dS(f, A, B) = hcubature(v -> f(v...), A, B)[1]
 
-∑(x) = sum(collect(x))
+∑ = sum

@@ -18,11 +18,11 @@ L(v) = ∫dl(k * g * v, Γ)
 B(u, v) = ∫∫dS(k * (∂x(u) * ∂x(v) + ∂y(u) * ∂y(v)), (-1, -1), (1, 1))
 
 eᵢ = e.([ (-1, -1), (0, -1), (1, -1), (-1, 0), (-1, 1) ])
-wᵢ = [B(u, v) for u=eᵢ, v=eᵢ] \ [L(v) for v=eᵢ]
+wᵢ = [B(u, v) for u ∈ eᵢ, v ∈ eᵢ] \ [L(v) for v ∈ eᵢ]
 
-f(x, y) = ∑(wᵢ .* (e(x, y) for e=eᵢ))
+f(x, y) = ∑(wᵢ .* [e(x, y) for e ∈ eᵢ])
 
 # Drawing plot
-x, y = -1:0.1:1, -1:0.1:1
-z = [f(x, y) for y=y, x=x]
-heatmap(x, y, z, aspect_ratio=1)
+X, Y = -1:0.01:1, -1:0.01:1
+Z = [f(x, y) for y ∈ Y, x ∈ X]
+heatmap(X, Y, Z, aspect_ratio = 1)

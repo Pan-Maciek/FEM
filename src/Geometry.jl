@@ -29,4 +29,4 @@ end
 
 wrap1(xs) = flatten((rest(xs, 2), [xs[1]]))
 
-prepareEdge(shape, Γ) = [edge for (edge, f) = zip(makeEdge.(shape, wrap1(shape)), Γ) if f != 0]
+prepareEdge(shape, Γ) = [edge for (edge, f) ∈ zip(makeEdge.(shape, wrap1(shape)), Γ) if f != 0]
