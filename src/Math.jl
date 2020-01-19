@@ -1,10 +1,11 @@
-import Base.+, Base.*
+import Base.+, Base.*, Base.<
 using Cubature, ForwardDiff
 
 # Function composition
 (+)(a::Function, b::Function) = (x, y) -> (@inline a)(x, y) + (@inline b)(x, y)
 (+)(a::Function, b::Number) = (x, y) -> (@inline a)(x, y) + b
 (*)(a::Function, b::Function) = (x, y) -> (@inline a)(x, y) * (@inline b)(x, y)
+(<)(a::Tuple, b::Tuple) = all(a .< b)
 
 # Derivatives
 ∂x(f) = (x, y) -> ForwardDiff.derivative(x -> f(x, y), x)
