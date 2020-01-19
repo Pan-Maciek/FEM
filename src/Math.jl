@@ -1,10 +1,16 @@
-import Base.+, Base.*, Base.<
+import Base.+, Base.-, Base.*, Base.<
 using Cubature, ForwardDiff
 
 # Function composition
 (+)(a::Function, b::Function) = (x, y) -> (@inline a)(x, y) + (@inline b)(x, y)
-(+)(a::Function, b::Number) = (x, y) -> (@inline a)(x, y) + b
 (*)(a::Function, b::Function) = (x, y) -> (@inline a)(x, y) * (@inline b)(x, y)
+
+(+)(a::Function, b::Number) = (x, y) -> (@inline a)(x, y) + b
+(+)(a::Number, b::Function) = (x, y) -> (@inline b)(x, y) + a
+(-)(a::Function, b::Number) = (x, y) -> (@inline a)(x, y) - b
+(-)(a::Number, b::Function) = (x, y) -> (@inline b)(x, y) - a
+
+# Cartesian position comparison
 (<)(a::Tuple, b::Tuple) = all(a .< b)
 
 # Derivatives
@@ -14,8 +20,9 @@ using Cubature, ForwardDiff
 # Integrals
 ∫, ∫∫ = hquadrature, hcubature
 
+# Notice valid only for linear functions
 ∫dsX(f, a, b, y, slope) = ∫(x -> f(x, y(x)), a, b)[1] * sqrt(1 + slope^2) # helper
-∫dsY(f, a, b, x, slope) = ∫(y -> f(x(y), y) * sqrt(1 + slope^2), a, b)[1] # helper
+∫dsY(f, a, b, x, slope) = ∫(y -> f(x(y), y), a, b)[1] * sqrt(1 + slope^2) # helper
 
 ∫ds(f, e::EdgeX) = ∫dsX(f, e.range..., e.y, e.a)
 ∫ds(f, e::EdgeY) = ∫dsY(f, e.range..., e.x, e.a)
