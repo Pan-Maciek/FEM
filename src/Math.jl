@@ -1,5 +1,5 @@
 import Base.+, Base.-, Base.*, Base.<
-using Cubature, ForwardDiff
+using HCubature, ForwardDiff
 
 # Function composition
 (+)(a::Function, b::Function) = (x, y) -> (@inline a)(x, y) + (@inline b)(x, y)
@@ -28,6 +28,7 @@ using Cubature, ForwardDiff
 ∫dl(f, e::EdgeY) = ∫dlY(f, e.range..., e.x, e.a)
 ∫dl(f, edges) = sum(∫dl.(f, edges))
 
-∫∫dS(f, A, B) = hcubature(v -> f(v...), A, B)[1]
+initdiv = trunc(Int, ceil(max(1/dx,1/dy, 1)))
+∫∫dS(f, A, B) = hcubature(v -> f(v...), A, B, initdiv=initdiv)[1]
 
 ∑ = sum
