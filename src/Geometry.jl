@@ -13,7 +13,7 @@ struct EdgeY <: Edge
     a :: Number # ∂x
 end
 
-function makeEdge(A, B)::Edge
+function Edge(A, B)::Edge
     xRange, yRange = minmax.(A, B)
     (xa, ya), (xb, yb) = A, B
     if xa != xb
@@ -29,4 +29,15 @@ end
 
 wrap1(xs) = flatten((rest(xs, 2), [xs[1]]))
 
-prepareEdge(shape, Γ) = [edge for (edge, f) ∈ zip(makeEdge.(shape, wrap1(shape)), Γ) if f != 0]
+onEdge((x, y), edge :: EdgeX) = (edge.range[1] <= x <= edge.range[2]) && y ≈ edge.y(x)
+onEdge((x, y), edge :: EdgeY) = (edge.range[1] <= y <= edge.range[2]) && x ≈ edge.x(y)
+onEdge(point, edges :: Vector{Edge}) = any([onEdge(point, edge) for edge in edges])
+
+function prepareEdge(shape, Γ) :: Tuple{Vector{Edge}, Vector{Edge}}
+    Γn, Γd = [], []
+    for (edge, f) ∈ zip(Edge.(shape, wrap1(shape)), Γ)
+        if f != 0 push!(Γn, edge)
+        else push!(Γd, edge) end
+    end
+    Γn, Γd
+end
