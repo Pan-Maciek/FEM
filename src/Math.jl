@@ -1,4 +1,4 @@
-import Base.+, Base.-, Base.*, Base.<
+import Base: +, -, *, <
 using HCubature, ForwardDiff
 
 # Function composition
@@ -19,6 +19,7 @@ using HCubature, ForwardDiff
 
 # Integrals
 ∫, ∫∫ = hquadrature, hcubature
+∑ = sum
 
 # Notice valid only for linear functions
 ∫dlX(f, a, b, y, slope) = ∫(x -> f(x, y(x)), a, b)[1] * sqrt(1 + slope^2) # helper
@@ -30,5 +31,3 @@ using HCubature, ForwardDiff
 
 initdiv = trunc(Int, ceil(max(1/dx,1/dy, 1)))
 ∫∫dS(f, A, B) = hcubature(v -> f(v...), A, B, initdiv=initdiv)[1]
-
-∑ = sum

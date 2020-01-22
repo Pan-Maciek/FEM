@@ -33,10 +33,10 @@ onEdge((x, y), edge :: EdgeX) = (edge.range[1] <= x <= edge.range[2]) && y ≈ e
 onEdge((x, y), edge :: EdgeY) = (edge.range[1] <= y <= edge.range[2]) && x ≈ edge.x(y)
 onEdge(point, edges :: Vector{Edge}) = any([onEdge(point, edge) for edge in edges])
 
-function prepareEdge(shape, Γ) :: Tuple{Vector{Edge}, Vector{Edge}}
+function prepareEdge(shape, Γ) :: Tuple{Any, Vector{Edge}}
     Γn, Γd = [], []
     for (edge, f) ∈ zip(Edge.(shape, wrap1(shape)), Γ)
-        if f != 0 push!(Γn, edge)
+        if f != 0 push!(Γn, (f, edge))
         else push!(Γd, edge) end
     end
     Γn, Γd
